@@ -27,14 +27,14 @@ RGBchannel = 1;
 erosionsize = 1;
 
 % Direction 1 = fly moving horizontally  2 = vertically
-flydirection = 1;
+flydirection = 2;
 
 % Frames used to tune threshold2
 nframesthresh2 = 3;
 
 %% Load video
 % Specify video name and path
-[filename, vidpath] = uigetfile('D:\Projects\Visual-processing\*.wmv','Select the video file');
+[filename, vidpath] = uigetfile('D:\Projects\Visual-processing\*.avi','Select the video file');
 addpath(vidpath);
 
 % Get common parameters
@@ -329,6 +329,9 @@ textprogressbar('Done!')
 % Zero initial location
 flycoords_zeroed = flycoords - repmat(flycoords(:,:,1),[1,1,nframe2load]);
 
+% flycoords_zeroed2 (to be fixed by MF)
+flycoords_zeroed2 = flycoords_zeroed(fly2keep,:,:);
+
 % Plot the zeroed traces
 figure('Position',[50, 200, 1500, 350], 'Color', [1 1 1])
 
@@ -339,10 +342,10 @@ subplot(1,4,1:3)
 
 if flydirection == 1
     % Plot horizontal
-    plot(squeeze(flycoords_zeroed(:,1,:))')
+    plot(squeeze(flycoords_zeroed2(:,1,:))')
 else
     % Plot vertical
-    plot(squeeze(flycoords_zeroed(:,2,:))')
+    plot(squeeze(flycoords_zeroed2(:,2,:))')
 end
 
 % Create lines to label quadrants
@@ -363,13 +366,13 @@ end
 
 % Right subplot shows the polar plot of the net displacement of each fly
 subplot(1,4,4)
-compass(flycoords_zeroed(:,:,end))
+compass(flycoords_zeroed2(:,:,end))
 
 %% Print average summary plots
 
 % Compute mean and sem
-mean_coords = squeeze(nanmean(flycoords_zeroed,1));
-semcoords = squeeze(nanstd(flycoords_zeroed,1) / sqrt(n_arenas));
+mean_coords = squeeze(nanmean(flycoords_zeroed2,1));
+semcoords = squeeze(nanstd(flycoords_zeroed2,1) / sqrt(n_arenas));
 
 % Plot mean
 figure('color',[1 1 1]); 
@@ -383,7 +386,7 @@ xlabel('Time (seconds)');
 set(gca,'Box','off');
 
 % Compute mean velocity
-diff_coords = diff(flycoords_zeroed,1,3);
+diff_coords = diff(flycoords_zeroed2,1,3);
 mean_vel = squeeze(nanmean(diff_coords,1));
 sem_vel = squeeze(nanstd(diff_coords,1) / sqrt(n_arenas));
 
