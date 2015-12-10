@@ -9,11 +9,10 @@ targetfps = 15;
 bg_frame_gaps = 1;
 
 % First frame to load (for tracking and background calculation)
-
-firstframe2load = 10;
+firstframe2load = 30;
 
 % Last frame to load (a debugging variable)
-lastframe2load = 270;
+lastframe2load = 300;
 
 % Last frame used for background
 bg_lastframe2load = 300;
