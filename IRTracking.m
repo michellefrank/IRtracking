@@ -3,19 +3,19 @@
 
 %% Set parameters
 % Set target fps
-targetfps = 15;
+targetfps = 3.5;
 
 % Set frame-gaps used for background calculation
 bg_frame_gaps = 1;
 
 % First frame to load (for tracking and background calculation)
-firstframe2load = 30;
+firstframe2load = 13;
 
 % Last frame to load (a debugging variable)
-lastframe2load = 300;
+lastframe2load = nVidFrame - 13;
 
 % Last frame used for background
-bg_lastframe2load = 300;
+bg_lastframe2load = nVidFrame - 13;
 
 % Max tunning threshold
 Max_threshold = 100;
