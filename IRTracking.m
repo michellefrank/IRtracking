@@ -9,13 +9,13 @@ targetfps = 3.5;
 bg_frame_gaps = 1;
 
 % First frame to load (for tracking and background calculation)
-firstframe2load = 13;
+firstframe2load = 24;
 
 % Last frame to load (a debugging variable)
-lastframe2load = nVidFrame - 13;
+lastframe2load = nVidFrame - 20;
 
 % Last frame used for background
-bg_lastframe2load = nVidFrame - 13;
+bg_lastframe2load = nVidFrame - 20;
 
 % Max tunning threshold
 Max_threshold = 100;
@@ -73,7 +73,6 @@ bg_stack = uint8( zeros( all_arena_size(1), all_arena_size(2), n_bg_frames ) );
 
 % Use text progress bar
 textprogressbar('Loading background: ');
-
 
 % Load the background stack
 for i = 1 : n_bg_frames
@@ -252,7 +251,6 @@ thresholds_final = threshold2 * ones(nframe2load,1);
 % Initiate textprogressbar
 textprogressbar('Final segmentation: ');
 
-
 for i = 1 : nframe2load
     % Apply threshold
     im2 = arena(:,:,i) > threshold2;
@@ -368,6 +366,7 @@ end
 subplot(1,4,4)
 compass(flycoords_zeroed2(:,:,end))
 
+savefig(gcf, fullfile(vidpath, [filename(1:end-4),'-displacement.fig']));
 %% Print average summary plots
 
 % Compute mean and sem
@@ -385,6 +384,8 @@ ylabel('Mean Position (pixels)');
 xlabel('Time (seconds)');
 set(gca,'Box','off');
 
+savefig(gcf, fullfile(vidpath, [[filename(1:end-4),'-MeanPosition.fig']]));
+
 % Compute mean velocity
 diff_coords = diff(flycoords_zeroed2,1,3);
 mean_vel = squeeze(nanmean(diff_coords,1));
@@ -401,6 +402,8 @@ ylabel('Velocity (pixels/frame)');
 xlabel('Time (seconds)');
 set(gca,'Box','off');
 
+savefig(gcf, fullfile(vidpath, [filename(1:end-4),'-MeanVelocity.fig']));
+
 % Print out the number of nans in the computed array (as a sanity check on
 % how good your thresholding was)
 num_nans = sum(isnan(flycoords(:)));
@@ -408,4 +411,4 @@ display('Number of NaNs:'), display(num_nans);
 %% Keep and save data
 keep all_arena_size all_arenas_new arena_final flycoords flycoords_zeroed...
     filename n_arenas vidpath vidfps nframe2load
-save(fullfile(vidpath,[filename(1:end-4),'_clean.mat']))
+save(fullfile(vidpath,[filename(1:end-4),'.mat']))
