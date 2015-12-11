@@ -409,6 +409,6 @@ savefig(gcf, fullfile(vidpath, [filename(1:end-4),'-MeanVelocity.fig']));
 num_nans = sum(isnan(flycoords(:)));
 display('Number of NaNs:'), display(num_nans);
 %% Keep and save data
-keep all_arena_size all_arenas_new arena_final flycoords flycoords_zeroed...
-    filename n_arenas vidpath vidfps nframe2load
+% keep all_arena_size all_arenas_new arena_final flycoords flycoords_zeroed...
+%     filename n_arenas vidpath vidfps nframe2load
 save(fullfile(vidpath,[filename(1:end-4),'.mat']))
